@@ -11,5 +11,9 @@ You'd get:
 That sucks. Use shebang instead.
 
     #!/usr/bin/shebang jruby --1.9
-    puts RUBY_VERSION
+    puts "Hello from #{RUBY_VERSION}"
+
+Working output:
+
+    Hello from 1.9.2
 
