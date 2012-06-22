@@ -17,21 +17,25 @@
  *   #!/usr/bin/shebang scriptname arg1 arg2
  */
 
-#include <stdio.h>
-#include <unistd.h>
+#include <stdio.h> /* for printf */
+#include <unistd.h> /* for execvp */
+#include <stdlib.h> /* for calloc */
+#include <string.h> /* for memcpy */
 
 int main(int argc, char **argv) {
   char *cmd;
-  char *newargv[4];
+  char **newargv;
 
-  /* argv[0] is the program name, don't care */
-  /* argv[1] is the string after the #!command */
-  /* argv[2] is the name of the file you are executing */
-  asprintf(&cmd, "%s %s", argv[1], argv[2]);
+  newargv = calloc(argc + 2, sizeof(char *));
   newargv[0] = "/bin/sh";
   newargv[1] = "-c";
-  newargv[2] = cmd;
-  newargv[3] = NULL;
+  asprintf(&(newargv[2]), "%s \"$@\"", argv[1]);
+  memcpy(newargv + 3, argv + 2, (argc - 2) * sizeof(char *));
+
+  //for (int i = 0; i < argc + 2; i ++) {
+    //printf("newargv[%d]: %s\n", i, newargv[i]);
+  //}
+
   execvp("/bin/sh", newargv);
   return -1;
 }
