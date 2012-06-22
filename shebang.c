@@ -26,11 +26,11 @@ int main(int argc, char **argv) {
   char *cmd;
   char **newargv;
 
-  newargv = calloc(argc + 2, sizeof(char *));
+  newargv = calloc(argc + 3, sizeof(char *));
   newargv[0] = "/bin/sh";
   newargv[1] = "-c";
   asprintf(&(newargv[2]), "%s \"$@\"", argv[1]);
-  memcpy(newargv + 3, argv + 2, (argc - 2) * sizeof(char *));
+  memcpy(newargv + 3, argv + 1, (argc - 1) * sizeof(char *));
 
   //for (int i = 0; i < argc + 2; i ++) {
     //printf("newargv[%d]: %s\n", i, newargv[i]);
